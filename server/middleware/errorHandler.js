@@ -8,8 +8,14 @@
 const errorHandler = (err, req, res, next) => {
   console.error('Error:', err);
 
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
+  let statusCode = err.statusCode || err.status || 500;
+  let message = err.message || 'Internal Server Error';
+
+  // body-parser JSON parse error (invalid JSON)
+  if (err.type === 'entity.parse.failed') {
+    statusCode = 400;
+    message = 'Invalid JSON body. Make sure you send valid JSON with double quotes and no trailing commas.';
+  }
 
   res.status(statusCode).json({
     success: false,

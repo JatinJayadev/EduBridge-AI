@@ -1,8 +1,8 @@
-# Client Application – GlobalLearn AI
+# Client Application – EduBridge AI
 
-The `client/` folder contains the **frontend interface** for **GlobalLearn AI: Real-Time Video Localization**.
+The `client/` folder contains the **frontend interface** for **EduBridge AI: Real-Time Video Localization**.
 
-GlobalLearn AI is designed to break language barriers in education by enabling learners worldwide to experience video content in their own language. Instead of relying only on subtitles, the platform delivers a seamless, natural voice narration synchronized with the original speaker.
+EduBridge AI is designed to break language barriers in education by enabling learners worldwide to experience video content in their own language. Instead of relying only on subtitles, the platform delivers a seamless, natural voice narration synchronized with the original speaker.
 
 ---
 
@@ -10,7 +10,7 @@ GlobalLearn AI is designed to break language barriers in education by enabling l
 
 Imagine Maria, a brilliant student in Brazil, eager to learn data science from a top English-speaking professor on YouTube. For years, the language barrier was an insurmountable wall.
 
-But now, with **GlobalLearn AI**, that wall crumbles.
+But now, with **EduBridge AI**, that wall crumbles.
 
 Maria clicks play, and as the professor speaks, a clear, natural voice in Portuguese seamlessly narrates, perfectly in sync. She’s not just reading subtitles — she’s hearing and learning directly, as if the lecture was always meant for her.
 

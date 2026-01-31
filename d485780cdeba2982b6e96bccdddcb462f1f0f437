@@ -1,0 +1,43 @@
+client/src/components/VideoTranslator.css
+  a6d8fea15968c6d3 1-332
+client/src/components/VideoPlayer.jsx
+  a6d8fea15968c6d3 1-279
+client/src/components/VideoTranslator.jsx
+  a6d8fea15968c6d3 1-227
+client/.env.example
+  a6d8fea15968c6d3 1-4
+client/vite.config.js
+  a6d8fea15968c6d3 7-14
+server/routes/audioRoutes.js
+  a6d8fea15968c6d3 1-42
+server/server.js
+  a6d8fea15968c6d3 29
+client/src/components/Hero.jsx
+  a6d8fea15968c6d3 4,147,162-163,167
+client/src/services/api.js
+  a6d8fea15968c6d3 1-130
+server/utils/retry.js
+  a6d8fea15968c6d3 14
+client/src/App.jsx
+  a6d8fea15968c6d3 1,7-8,11-16,20
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.37",
+  "base_commit_sha": "d485780cdeba2982b6e96bccdddcb462f1f0f437",
+  "prompts": {
+    "a6d8fea15968c6d3": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "370826",
+        "model": "AUTO"
+      },
+      "human_author": "mukilan.p@kalvium.community",
+      "messages": [],
+      "total_additions": 1158,
+      "total_deletions": 122,
+      "accepted_lines": 1039,
+      "overriden_lines": 0
+    }
+  }
+}

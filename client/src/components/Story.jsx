@@ -3,7 +3,7 @@ import { CheckCircle2 } from 'lucide-react';
 
 const Story = () => {
   return (
-    <section style={{ padding: '6rem 0', background: 'white', overflow: 'hidden' }}>
+    <section style={{ padding: '6rem 0', overflow: 'hidden' }}>
       <div className="container">
         <div style={{
           display: 'grid',
@@ -17,14 +17,14 @@ const Story = () => {
               fontSize: '2.5rem',
               fontWeight: '700',
               marginBottom: '1.5rem',
-              color: '#111827',
+              color: 'var(--text-main)',
               lineHeight: '1.2'
             }}>
               Empowering Global Education
             </h2>
             <p style={{
               fontSize: '1.125rem',
-              color: '#4B5563',
+              color: 'var(--text-secondary)',
               lineHeight: '1.7',
               marginBottom: '2rem'
             }}>
@@ -57,12 +57,12 @@ const Story = () => {
                     <h4 style={{
                       fontSize: '1.1rem',
                       fontWeight: '600',
-                      color: '#111827',
+                      color: 'var(--text-main)',
                       marginBottom: '0.25rem'
                     }}>
                       {item.title}
                     </h4>
-                    <p style={{ color: '#6B7280' }}>
+                    <p style={{ color: 'var(--text-secondary)' }}>
                       {item.desc}
                     </p>
                   </div>

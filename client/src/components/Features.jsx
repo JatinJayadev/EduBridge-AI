@@ -36,7 +36,7 @@ const features = [
 
 const Features = () => {
   return (
-    <section style={{ padding: '6rem 0', background: '#F9FAFB' }}>
+    <section style={{ padding: '6rem 0' }}>
       <div className="container">
         <div style={{
           display: 'grid',
@@ -47,10 +47,10 @@ const Features = () => {
             const Icon = feature.icon;
             return (
               <div key={index} style={{
-                background: 'white',
+                background: 'rgba(255, 255, 255, 0.05)',
                 padding: '2rem',
                 borderRadius: '1rem',
-                border: '1px solid #E5E7EB',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
                 transition: 'transform 0.2s, box-shadow 0.2s',
                 cursor: 'default'
               }}
@@ -79,12 +79,12 @@ const Features = () => {
                   fontSize: '1.25rem',
                   fontWeight: '700',
                   marginBottom: '1rem',
-                  color: '#111827'
+                  color: 'var(--text-main)'
                 }}>
                   {feature.title}
                 </h3>
                 <p style={{
-                  color: '#6B7280',
+                  color: 'var(--text-secondary)',
                   lineHeight: '1.6'
                 }}>
                   {feature.description}

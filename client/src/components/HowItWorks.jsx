@@ -26,21 +26,21 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section style={{ padding: '6rem 0', background: 'white' }}>
+    <section style={{ padding: '6rem 0' }}>
       <div className="container">
         <h2 style={{
           fontSize: '2.5rem',
           fontWeight: '700',
           textAlign: 'center',
           marginBottom: '1rem',
-          color: '#111827'
+          color: 'var(--text-main)'
         }}>
           How It Works
         </h2>
         <p style={{
           textAlign: 'center',
           fontSize: '1.25rem',
-          color: '#4B5563',
+          color: 'var(--text-secondary)',
           marginBottom: '5rem',
           maxWidth: '800px',
           marginLeft: 'auto',
@@ -62,7 +62,7 @@ const HowItWorks = () => {
             left: 'calc(12.5% + 20px)',
             right: 'calc(12.5% + 20px)',
             height: '2px',
-            background: '#E5E7EB',
+            background: '#4B5563',
             zIndex: 0
           }} />
 
@@ -126,13 +126,13 @@ const HowItWorks = () => {
                   fontSize: '1.25rem',
                   fontWeight: '700',
                   marginBottom: '0.75rem',
-                  color: '#111827'
+                  color: 'var(--text-main)'
                 }}>
                   {step.title}
                 </h3>
                 <p style={{
                   fontSize: '1rem',
-                  color: '#6B7280',
+                  color: 'var(--text-secondary)',
                   lineHeight: '1.5'
                 }}>
                   {step.description}

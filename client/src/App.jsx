@@ -4,7 +4,6 @@ import Hero from './components/Hero'
 import HowItWorks from './components/HowItWorks'
 import Features from './components/Features'
 import Story from './components/Story'
-import Footer from './components/Footer'
 
 const App = () => {
   return (
@@ -14,7 +13,6 @@ const App = () => {
       <HowItWorks />
       <Story />
       <Features />
-      <Footer />
     </div>
   )
 }

@@ -26,7 +26,7 @@ const VideoJobSchema = new mongoose.Schema(
       default: 'PENDING',
     },
 
-    // Raw transcript (optional)
+    // Raw transcript with timing (from YouTube API)
     transcript: [
       {
         text: String,
@@ -46,6 +46,16 @@ const VideoJobSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+
+    // Translated transcript with timing (for TTS generation)
+    translatedTranscript: [
+      {
+        text: String,           // Translated text
+        start: Number,          // From original transcript
+        duration: Number,       // From original transcript
+        originalText: String,   // Original English text (for reference)
+      },
+    ],
 
     error: {
       type: String,

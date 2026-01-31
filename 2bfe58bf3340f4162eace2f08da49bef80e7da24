@@ -1,0 +1,27 @@
+server/server.js
+  2aa747799d31818a 1-61
+server/.gitignore
+  2aa747799d31818a 1-34
+server/package.json
+  2aa747799d31818a 1-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.37",
+  "base_commit_sha": "2bfe58bf3340f4162eace2f08da49bef80e7da24",
+  "prompts": {
+    "2aa747799d31818a": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "370683",
+        "model": "AUTO"
+      },
+      "human_author": "mukilan.p@kalvium.community",
+      "messages": [],
+      "total_additions": 128,
+      "total_deletions": 0,
+      "accepted_lines": 128,
+      "overriden_lines": 0
+    }
+  }
+}

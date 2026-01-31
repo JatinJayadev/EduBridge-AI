@@ -11,7 +11,7 @@ function expBackoffDelay(attempt, baseMs, maxMs) {
 
 /**
  * Retries async fn on retryable errors.
- * @param {Function} fn async () => any
+ * @param {Function} fn async (attempt:number) => any
  * @param {Object} options
  * @param {number} options.retries number of retries (not total attempts)
  * @param {number} options.baseDelayMs base delay
@@ -47,4 +47,44 @@ async function withRetry(fn, options) {
   throw lastErr;
 }
 
-module.exports = { withRetry };
+/**
+ * Compatibility helper for ttsService.js
+ * @param {Function} fn async () => any
+ * @param {Object} options
+ * @param {number} options.maxRetries
+ * @param {number} options.initialDelay
+ * @param {number} options.maxDelay
+ * @param {number} options.backoffFactor
+ * @param {(err:any)=>boolean} options.shouldRetry
+ */
+async function retryWithBackoff(fn, options) {
+  const {
+    maxRetries = 3,
+    initialDelay = 500,
+    maxDelay = 4000,
+    backoffFactor = 2,
+    shouldRetry = () => true,
+  } = options || {};
+
+  let lastErr;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastErr = err;
+
+      const isLast = attempt >= maxRetries;
+      if (isLast || !shouldRetry(err)) throw err;
+
+      // same jitter style
+      const base = Math.min(maxDelay, initialDelay * Math.pow(backoffFactor, attempt));
+      const delay = Math.round(base * (0.7 + Math.random() * 0.6));
+      await sleep(delay);
+    }
+  }
+
+  throw lastErr;
+}
+
+module.exports = { withRetry, retryWithBackoff };

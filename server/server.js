@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const connectDB = require('./config/database');
 const errorHandler = require('./middleware/errorHandler');
+const transcribeRoutes = require('./routes/transcribe');
 
 // Initialize express app
 const app = express();
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV === 'development') {
 // Routes
 app.use('/api', require('./routes/index'));
 app.use('/api/video', require('./routes/videoRoutes'));
+app.use('/api', transcribeRoutes);
 
 // Root route
 app.get('/', (req, res) => {
@@ -66,3 +68,40 @@ process.on('unhandledRejection', (err) => {
   console.error('Unhandled Promise Rejection:', err);
   process.exit(1);
 });
+
+// const API_KEY = "sk_eHNgFhnJWYEU-iJB9w885saJ9k71CskiEMglRHa11vY";
+// const VIDEO_URL = 'https://www.youtube.com/watch?v=U4QhCYlyIqE';
+
+// async function fetchTranscript() {
+//   try {
+//     const url = `https://transcriptapi.com/api/v2/youtube/transcript?video_url=${encodeURIComponent(VIDEO_URL)}`;
+
+//     const response = await fetch(url, {
+//       method: 'GET',
+//       headers: {
+//         'Authorization': `Bearer ${API_KEY}`
+//       }
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`HTTP ${response.status} ${response.statusText}`);
+//     }
+
+//     const data = await response.json();
+//     console.log('Full API Response:\n', data);
+
+//     if (Array.isArray(data.transcript)) {
+//       const text = data.transcript.map(item => item.text).join(' ');
+//       console.log('\nTranscript:\n', text);
+//     } else if (typeof data.transcript === 'string') {
+//       console.log('\nTranscript:\n', data.transcript);
+//     } else {
+//       console.log('Unexpected transcript format.');
+//     }
+
+//   } catch (err) {
+//     console.error('Failed to fetch transcript:', err.message);
+//   }
+// }
+
+// fetchTranscript();

@@ -28,7 +28,7 @@ const Story = () => {
               lineHeight: '1.7',
               marginBottom: '2rem'
             }}>
-              GlobalLearn AI isn't just about translation—it's about creating an inclusive learning experience. Every student deserves access to the world's best educational content, regardless of the language they speak.
+              EduBridge AI isn't just about translation—it's about creating an inclusive learning experience. Every student deserves access to the world's best educational content, regardless of the language they speak.
             </p>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>

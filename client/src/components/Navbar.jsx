@@ -32,7 +32,7 @@ const Navbar = () => {
           fontWeight: '700',
           letterSpacing: '-0.02em'
         }}>
-          GlobalLearn AI
+          EduBridge AI
         </span>
       </div>
     </nav>

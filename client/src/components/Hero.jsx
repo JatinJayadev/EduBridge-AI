@@ -66,7 +66,7 @@ const Hero = () => {
             marginBottom: '2.5rem',
             maxWidth: '540px'
           }}>
-            Imagine Maria, a brilliant student in Brazil, eager to learn data science from a top English-speaking professor on YouTube. With GlobalLearn AI, language barriers crumble.
+            Imagine Maria, a brilliant student in Brazil, eager to learn data science from a top English-speaking professor on YouTube. With EduBridge AI, language barriers crumble.
           </p>
 
           <div style={{ display: 'flex', gap: '2rem' }}>

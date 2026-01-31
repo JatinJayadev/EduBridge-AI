@@ -37,6 +37,29 @@ async function fetchTranscript(videoUrl) {
     }
 }
 
+function buildTranslatedTranscript(transcript, translatedLines) {
+    const translatedTranscript = [];
+
+    for (let i = 0; i < transcript.length; i++) {
+        const original = transcript[i];
+        const translatedLine = translatedLines[i];
+
+        if (!translatedLine) continue;
+
+        // Remove "1. ", "2. " from translated line
+        const translatedText = translatedLine.replace(/^\d+\.\s*/, '');
+
+        translatedTranscript.push({
+            text: translatedText,
+            start: original.start,
+            duration: original.duration,
+            originalText: original.text,
+        });
+    }
+
+    return translatedTranscript;
+}
+
 async function runTranslationJob(jobId) {
     const job = await VideoJob.findById(jobId);
     if (!job) return;
@@ -57,9 +80,15 @@ async function runTranslationJob(jobId) {
             targetLanguage: job.targetLanguage,
         });
 
+        const translatedTranscript = buildTranslatedTranscript(
+            job.transcript,
+            translatedLines
+        );
+
         await VideoJob.findByIdAndUpdate(jobId, {
             status: 'COMPLETED',
             translatedLines,
+            translatedTranscript,
             openai: {
                 model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
             },
@@ -82,13 +111,14 @@ async function runTranslationJob(jobId) {
     }
 }
 
-async function testTranslationWithHardcodedData(indexedLines, targetLanguage, videoUrl) {
+async function testTranslationWithHardcodedData(indexedLines, targetLanguage, videoUrl, originalTranscript) {
     try {
         const job = await VideoJob.create({
             videoUrl: videoUrl,
             clientRequestId: `test-${Date.now()}`,
             targetLanguage,
             indexedLines: indexedLines,
+            transcript: originalTranscript,
             status: 'PENDING',
         });
 
@@ -150,7 +180,8 @@ router.post('/transcribe', async (req, res) => {
         const translationResponse = await testTranslationWithHardcodedData(
             formattedTranscript.indexedLines,
             targetLanguage,
-            videoUrl
+            videoUrl,
+            transcript
         );
 
         if (!translationResponse.success) {
@@ -160,21 +191,6 @@ router.post('/transcribe', async (req, res) => {
                 error: translationResponse.error
             });
         }
-
-        // res.json({
-        //     success: true,
-        //     message: 'Transcript and translation job started',
-        //     videoUrl,
-        //     targetLanguage,
-        //     jobId: translationResponse.data.jobId,
-        //     status: 'PENDING'
-        // });
-
-        // res.json({
-        //     targetLanguage: convertLanguage,
-        //     videoUrl,
-        //     ...formattedTranscript
-        // });
 
         return res.json({
             success: true,

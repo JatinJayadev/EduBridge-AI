@@ -1,0 +1,31 @@
+server/models/VideoJob.js
+  a6d8fea15968c6d3 60-69,81-82
+server/clients/elevenlabsClient.js
+  a6d8fea15968c6d3 1-36,38-145
+server/services/ttsService.js
+  a6d8fea15968c6d3 1-221
+server/routes/transcribe.js
+  a6d8fea15968c6d3 7-8,78,81-83,94-97,99,107-142,144-149,151
+server/.gitignore
+  a6d8fea15968c6d3 27-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.37",
+  "base_commit_sha": "719714c551baec9ef7a59293754430add3df979c",
+  "prompts": {
+    "a6d8fea15968c6d3": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "370826",
+        "model": "AUTO"
+      },
+      "human_author": "mukilan.p@kalvium.community",
+      "messages": [],
+      "total_additions": 445,
+      "total_deletions": 1,
+      "accepted_lines": 444,
+      "overriden_lines": 1
+    }
+  }
+}

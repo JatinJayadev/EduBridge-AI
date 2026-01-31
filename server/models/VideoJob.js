@@ -1,38 +1,71 @@
 const mongoose = require('mongoose');
 
-const VideoJobSchema = new mongoose.Schema({
-  videoUrl: {
-    type: String,
-    required: [true, 'YouTube URL is required'],
-    trim: true
+const VideoJobSchema = new mongoose.Schema(
+  {
+    videoUrl: {
+      type: String,
+      required: false,
+      trim: true,
+    },
+    clientRequestId: {
+      type: String,
+      required: false,
+      trim: true,
+      index: true,
+      unique: true,
+      sparse: true,
+    },
+    targetLanguage: {
+      type: String,
+      required: [true, 'Target language is required'],
+      trim: true,
+    },
+    status: {
+      type: String,
+      enum: ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED'],
+      default: 'PENDING',
+    },
+
+    // Raw transcript (optional)
+    transcript: [
+      {
+        text: String,
+        start: Number,
+        duration: Number,
+      },
+    ],
+
+    // What you send to OpenAI (the numbered strings: ["1. text", "2. text"])
+    indexedLines: {
+      type: [String],
+      default: [],
+    },
+
+    // Translated output aligned to indexedLines order (["1. हैलो", "2. स्वागत है"])
+    translatedLines: {
+      type: [String],
+      default: [],
+    },
+
+    error: {
+      type: String,
+      default: null,
+    },
+
+    openai: {
+      model: String,
+      attempts: Number,
+      lastError: String,
+    },
+
+    metadata: {
+      title: String,
+      thumbnail: String,
+      duration: String,
+    },
   },
-  targetLanguage: {
-    type: String,
-    required: [true, 'Target language is required'],
-    trim: true
-  },
-  status: {
-    type: String,
-    enum: ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED'],
-    default: 'PENDING'
-  },
-  transcript: [{
-    text: String,
-    start: Number,
-    duration: Number
-  }],
-  error: {
-    type: String,
-    default: null
-  },
-  metadata: {
-    title: String,
-    thumbnail: String,
-    duration: String
-  }
-}, {
-  timestamps: true
-});
+  { timestamps: true }
+);
 
 // Indexes for performance
 VideoJobSchema.index({ status: 1 });

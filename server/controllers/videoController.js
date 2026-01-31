@@ -1,6 +1,7 @@
 const VideoJob = require('../models/VideoJob');
 const logger = require('../utils/logger');
 const { translateIndexedLines } = require('../services/openaiTranslateService');
+const { mergeTranslatedWithTiming } = require('../utils/transcriptMerger');
 const OpenAI = require('openai');
 
 /**
@@ -27,9 +28,16 @@ async function runTranslationJob(jobId) {
       targetLanguage: job.targetLanguage,
     });
 
+    // Merge translated text with original timing (for TTS)
+    const translatedTranscript = mergeTranslatedWithTiming(
+      job.transcript,
+      translatedLines
+    );
+
     await VideoJob.findByIdAndUpdate(jobId, {
       status: 'COMPLETED',
       translatedLines,
+      translatedTranscript,
       openai: {
         model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
       },
@@ -93,7 +101,7 @@ exports.processVideo = async (req, res, next) => {
  */
 exports.translateIndexedTranscript = async (req, res, next) => {
   try {
-    const { indexedLines, targetLanguage, clientRequestId, videoUrl } = req.body;
+    const { indexedLines, targetLanguage, clientRequestId, videoUrl, transcript } = req.body;
 
     if (!targetLanguage) {
       return res.status(400).json({ success: false, error: 'targetLanguage is required' });
@@ -119,6 +127,7 @@ exports.translateIndexedTranscript = async (req, res, next) => {
       clientRequestId: clientRequestId || null,
       targetLanguage,
       indexedLines,
+      transcript: transcript || [], // Store original timing
       status: 'PENDING',
     });
 
@@ -155,6 +164,16 @@ exports.testTranslationWithHardcodedData = async (req, res, next) => {
       '6. What if I cannot?',
     ];
 
+    // Hardcoded original transcript with timing (simulates YouTube API response)
+    const hardcodedTranscript = [
+      { text: 'After years of war,', start: 24, duration: 3.625 },
+      { text: 'no one could stand between my men', start: 35, duration: 2.75 },
+      { text: 'and home.', start: 42, duration: 3.791 },
+      { text: 'Not even me.', start: 49, duration: 3.208 },
+      { text: 'Promise me you will come back.', start: 99, duration: 2.792 },
+      { text: 'What if I cannot?', start: 102, duration: 2.458 },
+    ];
+
     logger.info('TEST: Creating translation job with hardcoded data', {
       targetLanguage,
       linesCount: hardcodedIndexedLines.length,
@@ -165,6 +184,7 @@ exports.testTranslationWithHardcodedData = async (req, res, next) => {
       clientRequestId: `test-${Date.now()}`,
       targetLanguage,
       indexedLines: hardcodedIndexedLines,
+      transcript: hardcodedTranscript,
       status: 'PENDING',
     });
 

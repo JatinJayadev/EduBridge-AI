@@ -4,25 +4,15 @@ import { Globe, Wand2, Play } from 'lucide-react';
 const Hero = () => {
   return (
     <section style={{
-      background: 'linear-gradient(135deg, #7C3AED 0%, #C026D3 100%)',
+      background: '#313131',
       minHeight: '90vh',
       display: 'flex',
       alignItems: 'center',
       position: 'relative',
       overflow: 'hidden',
-      paddingTop: '80px' // Space for navbar
+      paddingTop: '80px',
+      borderBottom: '3px solid #7c7c7cff'
     }}>
-      {/* Background Abstract Shapes - optional decoration */}
-      <div style={{
-        position: 'absolute',
-        top: '-10%',
-        right: '-5%',
-        width: '500px',
-        height: '500px',
-        background: 'radial-gradient(circle, rgba(236, 72, 153, 0.4) 0%, rgba(255,255,255,0) 70%)',
-        borderRadius: '50%',
-        pointerEvents: 'none'
-      }} />
 
       <div className="container" style={{
         display: 'grid',
@@ -30,7 +20,7 @@ const Hero = () => {
         gap: '4rem',
         alignItems: 'center',
         position: 'relative',
-        zIndex: 1
+        zIndex: 1,
       }}>
         {/* Left Content */}
         <div style={{ color: 'white' }}>

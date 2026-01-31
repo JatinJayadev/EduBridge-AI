@@ -1,0 +1,40 @@
+server/models/VideoJob.js
+  7583ba9284d631a5 7-17,20-21,26-60,64-65
+server/controllers/videoController.js
+  7583ba9284d631a5 2-3,7-56,68,76,81-128,130-131,139-182,201,207
+server/routes/videoRoutes.js
+  7583ba9284d631a5 5-7,18-19,25,31-35
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.37",
+  "base_commit_sha": "9bf847c2c0aef8fec80b165ee3b9c7f0f4a98be6",
+  "prompts": {
+    "2aa747799d31818a": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "370683",
+        "model": "AUTO"
+      },
+      "human_author": "mukilan.p@kalvium.community",
+      "messages": [],
+      "total_additions": 18,
+      "total_deletions": 0,
+      "accepted_lines": 18,
+      "overriden_lines": 0
+    },
+    "7583ba9284d631a5": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "370764",
+        "model": "AUTO"
+      },
+      "human_author": "mukilan.p@kalvium.community",
+      "messages": [],
+      "total_additions": 265,
+      "total_deletions": 45,
+      "accepted_lines": 242,
+      "overriden_lines": 1
+    }
+  }
+}

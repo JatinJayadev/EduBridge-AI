@@ -4,6 +4,8 @@ const axios = require('axios');
 const to = require('await-to-js').to;
 const VideoJob = require('../models/VideoJob');
 const { translateIndexedLines } = require('../services/openaiTranslateService');
+const { generateAudioForAllSegments } = require('../services/ttsService');
+const logger = require('../utils/logger');
 
 require('dotenv').config();
 
@@ -73,8 +75,12 @@ async function runTranslationJob(jobId) {
     }
 
     try {
+        // Step 1: Update status to PROCESSING for translation
         await VideoJob.findByIdAndUpdate(jobId, { status: 'PROCESSING', error: null });
 
+        logger.info('Starting translation for job', { jobId });
+
+        // Step 2: Translate the indexed lines
         const translatedLines = await translateIndexedLines({
             indexedLines: job.indexedLines,
             targetLanguage: job.targetLanguage,
@@ -85,14 +91,64 @@ async function runTranslationJob(jobId) {
             translatedLines
         );
 
+        logger.info('Translation completed, starting TTS generation', {
+            jobId,
+            segmentCount: translatedTranscript.length,
+        });
+
+        // Step 3: Update job with translated data, but keep status as PROCESSING
         await VideoJob.findByIdAndUpdate(jobId, {
-            status: 'COMPLETED',
             translatedLines,
             translatedTranscript,
             openai: {
                 model: process.env.OPENAI_MODEL || 'gpt-4o-mini',
             },
         });
+
+        // Step 4: Generate audio for all translated segments using ElevenLabs TTS
+        let audioSegments = [];
+        try {
+            audioSegments = await generateAudioForAllSegments(translatedTranscript, jobId);
+
+            logger.info('TTS generation completed successfully', {
+                jobId,
+                audioSegmentCount: audioSegments.length,
+            });
+        } catch (ttsError) {
+            logger.error('TTS generation failed', {
+                jobId,
+                error: ttsError.message,
+            });
+
+            // Update job with TTS error but keep translation data
+            await VideoJob.findByIdAndUpdate(jobId, {
+                status: 'FAILED',
+                error: `TTS generation failed: ${ttsError.message}`,
+                elevenlabs: {
+                    voiceId: process.env.ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM',
+                    model: process.env.ELEVENLABS_MODEL || 'eleven_multilingual_v2',
+                    lastError: ttsError.message,
+                },
+            });
+            return;
+        }
+
+        // Step 5: Update job with audio segments and mark as COMPLETED
+        await VideoJob.findByIdAndUpdate(jobId, {
+            status: 'COMPLETED',
+            audioSegments,
+            elevenlabs: {
+                voiceId: process.env.ELEVENLABS_VOICE_ID || '21m00Tcm4TlvDq8ikWAM',
+                model: process.env.ELEVENLABS_MODEL || 'eleven_multilingual_v2',
+            },
+        });
+
+        logger.info('Job completed successfully', {
+            jobId,
+            translationCount: translatedLines.length,
+            audioSegmentCount: audioSegments.length,
+        });
+
     } catch (err) {
         logger.warn('Translation job failed', {
             jobId,

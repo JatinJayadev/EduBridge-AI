@@ -34,10 +34,49 @@ function parseNumberedOutputToArray(outputText) {
   return parsed.filter((v) => typeof v === 'string');
 }
 
+/**
+ * Map language code to full language name for OpenAI
+ */
+function getLanguageName(languageCode) {
+  const languageMap = {
+    'hi': 'Hindi',
+    'ta': 'Tamil',
+    'es': 'Spanish',
+    'pt': 'Portuguese',
+    'fr': 'French',
+    'de': 'German',
+    'ja': 'Japanese',
+    'ko': 'Korean',
+    'zh': 'Chinese',
+    'ar': 'Arabic',
+    'ru': 'Russian',
+    'it': 'Italian',
+    'nl': 'Dutch',
+    'pl': 'Polish',
+    'tr': 'Turkish',
+    'vi': 'Vietnamese',
+    'th': 'Thai',
+    'id': 'Indonesian',
+    'ms': 'Malay',
+    'bn': 'Bengali',
+    'te': 'Telugu',
+    'mr': 'Marathi',
+    'gu': 'Gujarati',
+    'kn': 'Kannada',
+    'ml': 'Malayalam',
+    'pa': 'Punjabi',
+    'ur': 'Urdu',
+  };
+  
+  return languageMap[languageCode] || languageCode;
+}
+
 function buildTranslateInstructions(targetLanguage) {
+  const languageName = getLanguageName(targetLanguage);
+  
   return [
-    `Translate the following transcript into ${targetLanguage}.`,
-    `Use natural, casual, spoken ${targetLanguage}, like how a real person would speak.`,
+    `Translate the following transcript into ${languageName}.`,
+    `Use natural, casual, spoken ${languageName}, like how a real person would speak.`,
     `Maintain the same emotional tone, intensity, and style as the original.`,
     `Do NOT make it formal or literary.`,
     `Keep numbering exactly the same.`,

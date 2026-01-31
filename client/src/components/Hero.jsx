@@ -1,7 +1,51 @@
-import React from 'react';
-import { Globe, Wand2, Play } from 'lucide-react';
+import React, { useState } from 'react';
+import { Globe, Wand2, Play, Loader2 } from 'lucide-react';
+import { submitVideo, pollJobStatus, extractYouTubeVideoId } from '../services/api';
+import { SUPPORTED_LANGUAGES } from '../constants/languages';
 
-const Hero = ({ onGetStarted }) => {
+const Hero = ({ onJobStarted }) => {
+  const [videoUrl, setVideoUrl] = useState('');
+  const [targetLanguage, setTargetLanguage] = useState('hi');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+    setLoading(true);
+
+    try {
+      // Validate YouTube URL
+      const videoId = extractYouTubeVideoId(videoUrl);
+      if (!videoId) {
+        throw new Error('Invalid YouTube URL. Please enter a valid YouTube link.');
+      }
+
+      // Submit video for processing
+      const response = await submitVideo(videoUrl, targetLanguage);
+      
+      if (!response.success) {
+        throw new Error(response.message || 'Failed to submit video');
+      }
+
+      const jobId = response.jobId;
+
+      // Notify parent component with job details
+      if (onJobStarted) {
+        onJobStarted({
+          jobId,
+          videoId,
+          targetLanguage,
+          videoUrl,
+        });
+      }
+
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
+  };
+
   return (
     <section style={{
       background: '#313131',
@@ -97,24 +141,31 @@ const Hero = ({ onGetStarted }) => {
           </p>
 
           {/* Form */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
             <div>
               <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.5rem' }}>
                 YouTube Video URL
               </label>
               <input 
                 type="text" 
+                value={videoUrl}
+                onChange={(e) => setVideoUrl(e.target.value)}
                 placeholder="https://www.youtube.com/watch?v=..."
+                required
+                disabled={loading}
                 style={{
                   width: '100%',
                   padding: '0.75rem 1rem',
                   borderRadius: '0.5rem',
                   border: '1px solid #E5E7EB',
-                  background: '#F9FAFB',
+                  background: loading ? '#F3F4F6' : '#F9FAFB',
                   fontSize: '0.925rem',
                   outline: 'none',
-                  transition: 'border-color 0.2s'
+                  transition: 'border-color 0.2s',
+                  cursor: loading ? 'not-allowed' : 'text'
                 }}
+                onFocus={(e) => e.target.style.borderColor = '#C084FC'}
+                onBlur={(e) => e.target.style.borderColor = '#E5E7EB'}
               />
             </div>
 
@@ -122,34 +173,51 @@ const Hero = ({ onGetStarted }) => {
               <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '600', marginBottom: '0.5rem' }}>
                 Target Language
               </label>
-              <select style={{
-                width: '100%',
-                padding: '0.75rem 1rem',
-                borderRadius: '0.5rem',
-                border: '1px solid #E5E7EB',
-                background: '#F9FAFB',
-                fontSize: '0.925rem',
-                outline: 'none',
-                color: '#4B5563',
-                appearance: 'none', // simplifying visual for now
-                cursor: 'pointer'
-              }}>
-                <option>Select a language</option>
-                <option>Portuguese (Brazil)</option>
-                <option>Spanish (Spain)</option>
-                <option>French (France)</option>
-                <option>Hindi (India)</option>
-                <option>Tamil (India)</option>
+              <select 
+                value={targetLanguage}
+                onChange={(e) => setTargetLanguage(e.target.value)}
+                disabled={loading}
+                style={{
+                  width: '100%',
+                  padding: '0.75rem 1rem',
+                  borderRadius: '0.5rem',
+                  border: '1px solid #E5E7EB',
+                  background: loading ? '#F3F4F6' : '#F9FAFB',
+                  fontSize: '0.925rem',
+                  outline: 'none',
+                  color: '#4B5563',
+                  cursor: loading ? 'not-allowed' : 'pointer'
+                }}
+              >
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <option key={lang.code} value={lang.code}>
+                    {lang.name} ({lang.region})
+                  </option>
+                ))}
               </select>
             </div>
 
+            {error && (
+              <div style={{
+                padding: '0.75rem',
+                background: '#FEE2E2',
+                border: '1px solid #FCA5A5',
+                borderRadius: '0.5rem',
+                color: '#991B1B',
+                fontSize: '0.875rem'
+              }}>
+                {error}
+              </div>
+            )}
+
             <button 
-              onClick={onGetStarted}
+              type="submit"
+              disabled={loading}
               style={{
                 marginTop: '0.5rem',
                 width: '100%',
                 padding: '1rem',
-                background: '#C084FC', // A lighter purple to match screenshot
+                background: loading ? '#D1D5DB' : '#C084FC',
                 color: 'white',
                 border: 'none',
                 borderRadius: '0.5rem',
@@ -160,15 +228,41 @@ const Hero = ({ onGetStarted }) => {
                 justifyContent: 'center',
                 gap: '0.5rem',
                 transition: 'background 0.2s',
-                cursor: 'pointer'
+                cursor: loading ? 'not-allowed' : 'pointer'
+              }}
+              onMouseEnter={(e) => {
+                if (!loading) e.target.style.background = '#A855F7';
+              }}
+              onMouseLeave={(e) => {
+                if (!loading) e.target.style.background = '#C084FC';
               }}
             >
-              <Play size={20} fill="white" />
-              Get Started
+              {loading ? (
+                <>
+                  <Loader2 size={20} className="spin-animation" />
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <Play size={20} fill="white" />
+                  Process Video
+                </>
+              )}
             </button>
-          </div>
+          </form>
         </div>
       </div>
+
+      {/* Add spinning animation for loader */}
+      <style>{`
+        @keyframes spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .spin-animation {
+          animation: spin 1s linear infinite;
+        }
+      `}</style>
     </section>
   );
 };

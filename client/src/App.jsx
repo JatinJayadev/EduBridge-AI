@@ -1,11 +1,21 @@
-import './App.css'
+import React from 'react'
+import Navbar from './components/Navbar'
+import Hero from './components/Hero'
+import HowItWorks from './components/HowItWorks'
+import Features from './components/Features'
+import Story from './components/Story'
+import Footer from './components/Footer'
 
-function App() {
-
+const App = () => {
   return (
-    <>
-<div>Home Screen</div>
-    </>
+    <div className="app">
+      <Navbar />
+      <Hero />
+      <HowItWorks />
+      <Story />
+      <Features />
+      <Footer />
+    </div>
   )
 }
 

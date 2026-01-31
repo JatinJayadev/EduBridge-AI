@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { submitVideo, pollJobStatus, extractYouTubeVideoId } from '../services/api';
 import VideoPlayer from './VideoPlayer';
+import { SUPPORTED_LANGUAGES } from '../constants/languages';
 
 const VideoTranslator = () => {
   const [videoUrl, setVideoUrl] = useState('');
@@ -12,18 +13,8 @@ const VideoTranslator = () => {
   const [videoId, setVideoId] = useState(null);
   const [audioSegments, setAudioSegments] = useState([]);
 
-  const languages = [
-    { code: 'hi', name: 'Hindi' },
-    { code: 'es', name: 'Spanish' },
-    { code: 'fr', name: 'French' },
-    { code: 'de', name: 'German' },
-    { code: 'ja', name: 'Japanese' },
-    { code: 'ko', name: 'Korean' },
-    { code: 'zh', name: 'Chinese' },
-    { code: 'ar', name: 'Arabic' },
-    { code: 'pt', name: 'Portuguese' },
-    { code: 'ru', name: 'Russian' },
-  ];
+  // Use centralized language list
+  const languages = SUPPORTED_LANGUAGES;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -154,7 +145,7 @@ const VideoTranslator = () => {
               >
                 {languages.map((lang) => (
                   <option key={lang.code} value={lang.code}>
-                    {lang.name}
+                    {lang.name} ({lang.region})
                   </option>
                 ))}
               </select>

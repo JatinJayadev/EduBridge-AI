@@ -39,6 +39,8 @@ async function translateIndexedLines({ indexedLines, targetLanguage }) {
       chunksTotal: chunks.length,
       model,
       timeoutMs,
+      targetLanguage,
+      targetLanguageName: instructions.match(/into ([^.]+)/)?.[1] || targetLanguage,
     });
 
     const outputText = await withRetry(

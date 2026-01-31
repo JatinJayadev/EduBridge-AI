@@ -1,0 +1,27 @@
+server/controllers/videoController.js
+  7583ba9284d631a5 4,31-36,40,104,130,167-176,187
+server/utils/transcriptMerger.js
+  7583ba9284d631a5 1-36
+server/models/VideoJob.js
+  7583ba9284d631a5 29,50-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.37",
+  "base_commit_sha": "c23065856e666ae91c1c78374e6b4d51dcce5f87",
+  "prompts": {
+    "7583ba9284d631a5": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "370764",
+        "model": "AUTO"
+      },
+      "human_author": "mukilan.p@kalvium.community",
+      "messages": [],
+      "total_additions": 89,
+      "total_deletions": 23,
+      "accepted_lines": 70,
+      "overriden_lines": 0
+    }
+  }
+}

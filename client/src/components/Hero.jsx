@@ -1,7 +1,7 @@
 import React from 'react';
 import { Globe, Wand2, Play } from 'lucide-react';
 
-const Hero = () => {
+const Hero = ({ onGetStarted }) => {
   return (
     <section style={{
       background: '#313131',
@@ -139,27 +139,32 @@ const Hero = () => {
                 <option>Spanish (Spain)</option>
                 <option>French (France)</option>
                 <option>Hindi (India)</option>
+                <option>Tamil (India)</option>
               </select>
             </div>
 
-            <button style={{
-              marginTop: '0.5rem',
-              width: '100%',
-              padding: '1rem',
-              background: '#C084FC', // A lighter purple to match screenshot
-              color: 'white',
-              border: 'none',
-              borderRadius: '0.5rem',
-              fontSize: '1rem',
-              fontWeight: '600',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '0.5rem',
-              transition: 'background 0.2s'
-            }}>
+            <button 
+              onClick={onGetStarted}
+              style={{
+                marginTop: '0.5rem',
+                width: '100%',
+                padding: '1rem',
+                background: '#C084FC', // A lighter purple to match screenshot
+                color: 'white',
+                border: 'none',
+                borderRadius: '0.5rem',
+                fontSize: '1rem',
+                fontWeight: '600',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '0.5rem',
+                transition: 'background 0.2s',
+                cursor: 'pointer'
+              }}
+            >
               <Play size={20} fill="white" />
-              Process Video
+              Get Started
             </button>
           </div>
         </div>

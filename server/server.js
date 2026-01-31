@@ -26,6 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api', require('./routes/index'));
 app.use('/api/video', require('./routes/videoRoutes'));
 app.use('/api', transcribeRoutes);
+app.use('/api/audio', require('./routes/audioRoutes'));
 
 // Root route
 app.get('/', (req, res) => {

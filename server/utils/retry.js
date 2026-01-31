@@ -11,7 +11,7 @@ function expBackoffDelay(attempt, baseMs, maxMs) {
 
 /**
  * Retries async fn on retryable errors.
- * @param {Function} fn async (attempt:number) => any
+ * @param {Function} fn async () => any
  * @param {Object} options
  * @param {number} options.retries number of retries (not total attempts)
  * @param {number} options.baseDelayMs base delay

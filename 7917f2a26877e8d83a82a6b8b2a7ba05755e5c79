@@ -1,0 +1,31 @@
+server/config/database.js
+  2aa747799d31818a 10-12
+server/middleware/errorHandler.js
+  2aa747799d31818a 11-18
+server/server.js
+  2aa747799d31818a 26,48-57,59-61
+server/routes/videoRoutes.js
+  2aa747799d31818a 1-25
+server/models/VideoJob.js
+  2aa747799d31818a 1-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.0.37",
+  "base_commit_sha": "7917f2a26877e8d83a82a6b8b2a7ba05755e5c79",
+  "prompts": {
+    "2aa747799d31818a": {
+      "agent_id": {
+        "tool": "DeputyDev",
+        "id": "370683",
+        "model": "AUTO"
+      },
+      "human_author": "mukilan.p@kalvium.community",
+      "messages": [],
+      "total_additions": 92,
+      "total_deletions": 12,
+      "accepted_lines": 92,
+      "overriden_lines": 0
+    }
+  }
+}

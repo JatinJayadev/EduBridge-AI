@@ -8,9 +8,6 @@ const errorHandler = require('./middleware/errorHandler');
 // Initialize express app
 const app = express();
 
-// Connect to MongoDB
-connectDB();
-
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
@@ -26,6 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // Routes
 app.use('/api', require('./routes/index'));
+app.use('/api/video', require('./routes/videoRoutes'));
 
 // Root route
 app.get('/', (req, res) => {
@@ -47,11 +45,20 @@ app.use((req, res) => {
 // Error handling middleware (should be last)
 app.use(errorHandler);
 
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+// Start server only after DB connects (prevents mongoose buffering timeouts)
+const start = async () => {
+  await connectDB();
+
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  });
+};
+
+start().catch((err) => {
+  console.error('Failed to start server:', err);
+  process.exit(1);
 });
 
 // Handle unhandled promise rejections

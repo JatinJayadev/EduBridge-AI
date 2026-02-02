@@ -1,7 +1,5 @@
 # Client Application – EduBridge AI
 
-The `client/` folder contains the **frontend interface** for **EduBridge AI: Real-Time Video Localization**.
-
 EduBridge AI is designed to break language barriers in education by enabling learners worldwide to experience video content in their own language. Instead of relying only on subtitles, the platform delivers a seamless, natural voice narration synchronized with the original speaker.
 
 ---
@@ -38,8 +36,8 @@ The frontend application provides:
 
 ## ⚙️ Technologies Used
 
-- React.js / React Native  
-- JavaScript / TypeScript  
+- React.js  
+- JavaScript
 - API integration for transcription, translation, and voice synthesis  
 
 ---
